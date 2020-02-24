@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pers.jason.spiderweb.web.dao.TimeTableDao">
+
+    <insert id="save">
+        insert into t_time_table
+        (vehicle_id, place_id, arrive_time, set_out_time, vehicle_code, place_name)
+        values
+        <foreach collection="list" item="timeTable" index="index" separator=",">
+            (#{timeTable.vehicleId}, #{timeTable.placeId}, #{timeTable.arriveTime}, #{timeTable.setOutTime}
+            , #{timeTable.vehicleCode}, #{timeTable.placeName})
+        </foreach>
+    </insert>
+
+</mapper>

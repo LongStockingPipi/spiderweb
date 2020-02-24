@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pers.jason.spiderweb.web.dao.LocationDao">
+
+    <insert id="saveLocation" useGeneratedKeys="true" keyProperty="locationId">
+        insert into t_activity_location
+        (user_id,use_vehicle,vehicle,start_time,end_time,start_place,end_place,place,carriage,seat,wicket, exit_of)
+        values
+        (#{userId}, #{useVehicle}, #{vehicle}, #{startTime}, #{endTime}, #{startPlace}, #{endPlace}, #{place}, #{carriage}, #{seat}, #{wicket}, #{exit})
+    </insert>
+
+</mapper>

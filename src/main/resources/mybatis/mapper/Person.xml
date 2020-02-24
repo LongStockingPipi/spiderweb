@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pers.jason.spiderweb.web.dao.PersonDao">
+
+    <insert id="savePerson" useGeneratedKeys="true" keyProperty="id">
+        insert into t_person (p_id, p_name, p_age, p_tel, p_gender, p_email, p_is_infected, p_disease_time, p_definite_time)
+        values (#{id}, #{name}, #{age}, #{tel}, #{gender}, #{email}, #{infected}, #{diseaseTime}, #{definiteTime})
+    </insert>
+
+    <select id="findPersonById" resultMap="PERSON_MAP">
+        select p_id, p_name,p_age ,p_tel, p_gender,p_email ,p_disease_time ,p_definite_time, p_is_infected
+        from t_person where p_id = #{id}
+    </select>
+
+    <select id="validityOfTestTime" resultType="int">
+        select count(1) from t_activity_location where user_id = 1 and start_time <![CDATA[ <= ]]> #{endTime} and #{startTime} <![CDATA[ <= ]]> end_time
+    </select>
+
+    <resultMap id="PERSON_MAP" type="pers.jason.spiderweb.entity.dto.Person">
+        <id property="id" column="p_id"/>
+        <result property="name" column="p_name"/>
+        <result property="age" column="p_age"/>
+        <result property="tel" column="p_tel"/>
+        <result property="gender" column="p_gender"/>
+        <result property="email" column="p_email"/>
+        <result property="diseaseTime" column="p_disease_time"/>
+        <result property="definiteTime" column="p_definite_time"/>
+        <result property="infected" column="p_is_infected"/>
+    </resultMap>
+
+</mapper>

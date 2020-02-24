@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pers.jason.spiderweb.web.dao.VehicleDao">
+
+    <select id="findVehicleById" resultMap="VEHICLE_MAP">
+        select id, type, code, departure_station, destination_station from t_vehicle where id = #{id}
+    </select>
+
+    <select id="findVehicleByCode" resultMap="VEHICLE_MAP">
+        select id, type, code, departure_station, destination_station from t_vehicle where code = #{code} and type = #{type}
+        limit 1
+    </select>
+
+    <resultMap id="VEHICLE_MAP" type="pers.jason.spiderweb.entity.dto.Vehicle">
+        <id property="id" column="id"/>
+        <result property="type" column="type"/>
+        <result property="code" column="code"/>
+        <result property="departureStation" column="departure_station"/>
+        <result property="destinationStation" column="destination_station"/>
+    </resultMap>
+
+    <insert id="saveVehicle" useGeneratedKeys="true" keyProperty="id">
+        insert into t_vehicle (code, type, departure_station, destination_station) values
+        (#{code}, #{type}, #{departureStation}, #{destinationStation})
+    </insert>
+
+    <update id="updateVehicle">
+        update t_vehicle set id = #{id}
+        <if test="null != departureStation and departureStation != ''">
+            , departure_station = #{departureStation}
+        </if>
+        <if test="null != destinationStation and destinationStation != ''">
+            , destination_station = #{destinationStation}
+        </if>
+    </update>
+</mapper>

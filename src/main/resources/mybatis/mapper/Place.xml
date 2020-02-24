@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pers.jason.spiderweb.web.dao.PlaceDao">
+
+    <select id="findPlaceById" resultMap="PLACE_MAP">
+        select p_id, p_name, p_x, p_y, p_type from t_place where p_id = #{id}
+    </select>
+
+    <select id="getNameById" resultType="string">
+        select p_name from t_place where p_id = #{id}
+    </select>
+    
+    <select id="findPlacesByName" resultMap="PLACE_MAP">
+        select p_id, p_name, p_x, p_y, p_type from t_place where false or
+        (
+            <if test="null != type">
+                p_type = #{type}
+            </if>
+            <if test="null != nameList and nameList.size() > 0">
+                and p_name in
+                <foreach collection="nameList" item="name" index="index"
+                         open="(" close=")" separator=",">
+                    #{name}
+                </foreach>
+            </if>
+        )
+
+    </select>
+
+    <resultMap id="PLACE_MAP" type="pers.jason.spiderweb.entity.dto.Place">
+        <id property="placeId" column="p_id"/>
+        <result property="name" column="p_name"/>
+        <result property="x" column="p_x"/>
+        <result property="y" column="p_y"/>
+        <result property="type" column="p_type"/>
+    </resultMap>
+
+    <insert id="savePlaces" useGeneratedKeys="true" keyProperty="placeId">
+        insert into t_place (p_name, p_x, p_y, p_type) values
+        <foreach collection="list" item="place" index="index" separator=",">
+            (#{place.name}, #{place.x}, #{place.y}, #{place.type})
+        </foreach>
+    </insert>
+
+</mapper>
